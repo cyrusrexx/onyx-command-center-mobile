@@ -379,7 +379,49 @@ export default function Shipping() {
               </span>
             )}
           </div>
-          <table className="w-full text-xs" data-testid="active-shipments-table">
+          <div className="overflow-x-auto -mx-6 px-6">
+            <table className="w-full text-xs" style={{ minWidth: '800px' }} data-testid="active-shipments-table">
+              <thead>
+                <tr>
+                  <th className={tableHeaderClass}>Carrier</th>
+                  <th className={tableHeaderClass}>Tracking #</th>
+                  <th className={tableHeaderClass}>Job</th>
+                  <th className={tableHeaderClass}>Reference</th>
+                  <th className={tableHeaderClass}>Recipient</th>
+                  <th className={tableHeaderClass}>Status</th>
+                  <th className={tableHeaderClass}>Ship Date</th>
+                  <th className={tableHeaderClass}>Est. Delivery</th>
+                  <th className={tableHeaderClass}>Pkgs / Weight</th>
+                  <th className={`${tableHeaderClass} w-8`}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {activeShipments.map(s => (
+                  <ShipmentRow
+                    key={s.trackingNumber}
+                    shipment={s}
+                    jobs={jobs}
+                    isExpanded={expandedRows.has(s.trackingNumber)}
+                    onToggle={() => toggleRow(s.trackingNumber)}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Delivery History */}
+      <div className="glow-card rounded-xl p-6" data-testid="delivery-history-section">
+        <div className="flex items-center gap-2 mb-4">
+          <CheckCircle2 className="w-4 h-4 text-[#00e676]" />
+          <h2 className="font-display font-bold text-lg text-white/90">Delivery History</h2>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#00e676]/10 border border-[#00e676]/20 text-[#00e676]">
+            {deliveredShipments.length} delivered
+          </span>
+        </div>
+        <div className="overflow-x-auto -mx-6 px-6">
+          <table className="w-full text-xs" style={{ minWidth: '800px' }} data-testid="delivery-history-table">
             <thead>
               <tr>
                 <th className={tableHeaderClass}>Carrier</th>
@@ -395,7 +437,7 @@ export default function Shipping() {
               </tr>
             </thead>
             <tbody>
-              {activeShipments.map(s => (
+              {deliveredShipments.map(s => (
                 <ShipmentRow
                   key={s.trackingNumber}
                   shipment={s}
@@ -407,44 +449,6 @@ export default function Shipping() {
             </tbody>
           </table>
         </div>
-      )}
-
-      {/* Delivery History */}
-      <div className="glow-card rounded-xl p-6" data-testid="delivery-history-section">
-        <div className="flex items-center gap-2 mb-4">
-          <CheckCircle2 className="w-4 h-4 text-[#00e676]" />
-          <h2 className="font-display font-bold text-lg text-white/90">Delivery History</h2>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-[#00e676]/10 border border-[#00e676]/20 text-[#00e676]">
-            {deliveredShipments.length} delivered
-          </span>
-        </div>
-        <table className="w-full text-xs" data-testid="delivery-history-table">
-          <thead>
-            <tr>
-              <th className={tableHeaderClass}>Carrier</th>
-              <th className={tableHeaderClass}>Tracking #</th>
-              <th className={tableHeaderClass}>Job</th>
-              <th className={tableHeaderClass}>Reference</th>
-              <th className={tableHeaderClass}>Recipient</th>
-              <th className={tableHeaderClass}>Status</th>
-              <th className={tableHeaderClass}>Ship Date</th>
-              <th className={tableHeaderClass}>Est. Delivery</th>
-              <th className={tableHeaderClass}>Pkgs / Weight</th>
-              <th className={`${tableHeaderClass} w-8`}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {deliveredShipments.map(s => (
-              <ShipmentRow
-                key={s.trackingNumber}
-                shipment={s}
-                jobs={jobs}
-                isExpanded={expandedRows.has(s.trackingNumber)}
-                onToggle={() => toggleRow(s.trackingNumber)}
-              />
-            ))}
-          </tbody>
-        </table>
       </div>
 
       {/* Shipments by Job */}

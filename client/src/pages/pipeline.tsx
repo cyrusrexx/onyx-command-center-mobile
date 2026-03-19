@@ -574,10 +574,10 @@ export default function Pipeline() {
 
   return (
     <div data-testid="pipeline-page" className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="space-y-3">
         <h1 className="font-display font-bold text-lg text-white/90">Job Pipeline</h1>
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="relative flex-1 min-w-[160px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
             <input
               data-testid="pipeline-search"
@@ -585,7 +585,7 @@ export default function Pipeline() {
               placeholder="Search jobs..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 pr-4 py-2 text-sm bg-white/[0.04] border border-white/[0.08] rounded-lg text-white/80 placeholder:text-white/30 focus:outline-none focus:border-[#00e5ff]/30 w-56"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-white/[0.04] border border-white/[0.08] rounded-lg text-white/80 placeholder:text-white/30 focus:outline-none focus:border-[#00e5ff]/30"
             />
           </div>
           <select
@@ -614,13 +614,10 @@ export default function Pipeline() {
       </div>
 
       {/* Ready to Press indicator */}
-      <div className="flex items-center gap-2 text-xs text-[#00e676]/70">
-        <CheckCircle2 className="w-4 h-4" />
+      <div className="flex items-center gap-2 text-xs text-[#00e676]/70 flex-wrap">
+        <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
         <span>{filtered.filter(j => j.status === "ready-to-press" && j.depositStatus !== "none").length} jobs ready to press</span>
-        <span className="text-white/20">— Materials + Payment gates cleared</span>
-        <span className="ml-4 text-white/30">|</span>
-        <Info className="w-3 h-3 text-white/30 ml-1" />
-        <span className="text-white/30">Click any job card for full details</span>
+        <span className="text-white/20 hidden sm:inline">— Materials + Payment gates cleared</span>
       </div>
 
       {/* Kanban */}

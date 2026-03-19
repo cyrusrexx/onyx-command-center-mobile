@@ -791,13 +791,13 @@ export default function Leads() {
       </div>
 
       {/* Search & Filters */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
           <input
             data-testid="lead-search"
             type="text"
-            placeholder="Search leads by name, email, notes, tags..."
+            placeholder="Search leads..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[#00e5ff]/30 transition-colors"
@@ -809,11 +809,12 @@ export default function Leads() {
           )}
         </div>
 
+        <div className="flex items-center gap-2">
         <select
           data-testid="source-filter"
           value={sourceFilter}
           onChange={(e) => setSourceFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-xs text-white/60 focus:outline-none appearance-none cursor-pointer"
+          className="px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-xs text-white/60 focus:outline-none appearance-none cursor-pointer flex-1 sm:flex-none"
         >
           <option value="all">All Sources</option>
           {Object.entries(SOURCE_CONFIG).map(([key, { label }]) => (
@@ -825,13 +826,14 @@ export default function Leads() {
           data-testid="priority-filter"
           value={priorityFilter}
           onChange={(e) => setPriorityFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-xs text-white/60 focus:outline-none appearance-none cursor-pointer"
+          className="px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-xs text-white/60 focus:outline-none appearance-none cursor-pointer flex-1 sm:flex-none"
         >
           <option value="all">All Priorities</option>
           <option value="hot">Hot</option>
           <option value="normal">Normal</option>
           <option value="low">Low</option>
         </select>
+        </div>
       </div>
 
       {/* Results count */}
@@ -839,9 +841,9 @@ export default function Leads() {
         {filtered.length} lead{filtered.length !== 1 ? "s" : ""} shown
       </div>
 
-      {/* Lead Table */}
-      <div className="rounded-xl border border-white/[0.06] overflow-hidden" style={{ background: "rgba(18,19,26,0.6)" }}>
-        {/* Sortable Table header */}
+      {/* Lead Table — Desktop: grid table, Mobile: card list */}
+      {/* Desktop table (hidden on mobile) */}
+      <div className="hidden md:block rounded-xl border border-white/[0.06] overflow-hidden" style={{ background: "rgba(18,19,26,0.6)" }}>
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_120px] gap-3 px-4 py-2.5 border-b border-white/[0.06] bg-white/[0.02]">
           <SortHeader field="contactName" label="Contact" />
           <SortHeader field="status" label="Status" />
@@ -850,14 +852,11 @@ export default function Leads() {
           <SortHeader field="estimatedValue" label="Value" align="right" />
           <SortHeader field="lastContactDate" label="Last Contact" align="right" />
         </div>
-
-        {/* Table rows */}
         {filtered.map((lead) => {
           const statusCfg = STATUS_CONFIG[lead.status] || STATUS_CONFIG["new-lead"];
-          const sourceCfg = SOURCE_CONFIG[lead.source] || { label: lead.source, icon: "📋" };
+          const sourceCfg = SOURCE_CONFIG[lead.source] || { label: lead.source, icon: "\uD83D\uDCCB" };
           const followUpDays = daysUntil(lead.nextFollowUp);
           const lastDays = daysSince(lead.lastContactDate);
-
           return (
             <div
               key={lead.id}
@@ -865,7 +864,6 @@ export default function Leads() {
               onClick={() => setSelectedLead(lead)}
               className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_120px] gap-3 px-4 py-3 border-b border-white/[0.04] cursor-pointer hover:bg-white/[0.03] transition-colors group"
             >
-              {/* Contact */}
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0" style={{ background: statusCfg.bg, color: statusCfg.color }}>
                   {lead.contactName.charAt(0).toUpperCase()}
@@ -875,72 +873,76 @@ export default function Leads() {
                     <span className="text-sm text-white/80 font-medium truncate group-hover:text-white/95">{lead.contactName}</span>
                     {lead.priority === "hot" && <Flame className="w-3 h-3 text-[#ff1744] flex-shrink-0" />}
                   </div>
-                  {lead.companyName && (
-                    <div className="text-[11px] text-white/35 truncate">{lead.companyName}</div>
-                  )}
-                  {!lead.companyName && lead.email && (
-                    <div className="text-[11px] text-white/35 truncate">{lead.email}</div>
-                  )}
+                  {lead.companyName && <div className="text-[11px] text-white/35 truncate">{lead.companyName}</div>}
+                  {!lead.companyName && lead.email && <div className="text-[11px] text-white/35 truncate">{lead.email}</div>}
                 </div>
               </div>
-
-              {/* Status */}
               <div className="flex items-center">
-                <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide" style={{ background: statusCfg.bg, color: statusCfg.color }}>
-                  {statusCfg.label}
-                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide" style={{ background: statusCfg.bg, color: statusCfg.color }}>{statusCfg.label}</span>
               </div>
-
-              {/* Source */}
-              <div className="flex items-center text-[11px] text-white/50">
-                <span className="mr-1">{sourceCfg.icon}</span> {sourceCfg.label}
-              </div>
-
-              {/* Follow Up */}
+              <div className="flex items-center text-[11px] text-white/50"><span className="mr-1">{sourceCfg.icon}</span> {sourceCfg.label}</div>
               <div className="flex items-center">
                 {lead.nextFollowUp ? (
                   <div>
                     <div className="text-xs text-white/60 tabular-nums">{formatDate(lead.nextFollowUp)}</div>
-                    {followUpDays != null && followUpDays <= 0 && (
-                      <div className="text-[10px] text-[#ff1744] font-semibold">OVERDUE</div>
-                    )}
-                    {followUpDays != null && followUpDays > 0 && followUpDays <= 3 && (
-                      <div className="text-[10px] text-[#ff9100]">In {followUpDays}d</div>
-                    )}
+                    {followUpDays != null && followUpDays <= 0 && <div className="text-[10px] text-[#ff1744] font-semibold">OVERDUE</div>}
+                    {followUpDays != null && followUpDays > 0 && followUpDays <= 3 && <div className="text-[10px] text-[#ff9100]">In {followUpDays}d</div>}
                   </div>
-                ) : (
-                  <span className="text-[11px] text-white/20">—</span>
-                )}
+                ) : <span className="text-[11px] text-white/20">—</span>}
               </div>
-
-              {/* Value */}
               <div className="flex items-center justify-end">
-                <span className={`text-sm tabular-nums font-medium ${lead.estimatedValue ? "text-white/70" : "text-white/20"}`}>
-                  {formatCurrency(lead.estimatedValue)}
-                </span>
+                <span className={`text-sm tabular-nums font-medium ${lead.estimatedValue ? "text-white/70" : "text-white/20"}`}>{formatCurrency(lead.estimatedValue)}</span>
               </div>
-
-              {/* Last Contact */}
               <div className="flex items-center justify-end">
                 <div className="text-right">
                   <div className="text-xs text-white/50 tabular-nums">{formatDate(lead.lastContactDate)}</div>
-                  {lastDays != null && lastDays > 60 && (
-                    <div className="text-[10px] text-[#ff1744]">{lastDays}d ago</div>
-                  )}
-                  {lastDays != null && lastDays > 30 && lastDays <= 60 && (
-                    <div className="text-[10px] text-[#ff9100]">{lastDays}d ago</div>
+                  {lastDays != null && lastDays > 60 && <div className="text-[10px] text-[#ff1744]">{lastDays}d ago</div>}
+                  {lastDays != null && lastDays > 30 && lastDays <= 60 && <div className="text-[10px] text-[#ff9100]">{lastDays}d ago</div>}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        {filtered.length === 0 && <div className="px-4 py-8 text-center text-sm text-white/30">No leads match your filters</div>}
+      </div>
+
+      {/* Mobile card list */}
+      <div className="md:hidden space-y-2">
+        {filtered.map((lead) => {
+          const statusCfg = STATUS_CONFIG[lead.status] || STATUS_CONFIG["new-lead"];
+          const followUpDays = daysUntil(lead.nextFollowUp);
+          return (
+            <div
+              key={lead.id}
+              data-testid={`lead-card-${lead.id}`}
+              onClick={() => setSelectedLead(lead)}
+              className="glow-card rounded-xl p-3 cursor-pointer active:scale-[0.98] transition-transform"
+            >
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0" style={{ background: statusCfg.bg, color: statusCfg.color }}>
+                  {lead.contactName.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm text-white/85 font-medium truncate">{lead.contactName}</span>
+                    {lead.priority === "hot" && <Flame className="w-3 h-3 text-[#ff1744] flex-shrink-0" />}
+                  </div>
+                  {lead.companyName && <div className="text-[11px] text-white/40 truncate">{lead.companyName}</div>}
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="px-2 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wide" style={{ background: statusCfg.bg, color: statusCfg.color }}>{statusCfg.label}</span>
+                    <span className="text-xs text-white/50 tabular-nums font-medium">{formatCurrency(lead.estimatedValue)}</span>
+                  </div>
+                  {lead.nextFollowUp && followUpDays != null && followUpDays <= 3 && (
+                    <div className={`mt-1 text-[10px] font-semibold ${followUpDays <= 0 ? "text-[#ff1744]" : "text-[#ff9100]"}`}>
+                      {followUpDays <= 0 ? "FOLLOW UP OVERDUE" : `Follow up in ${followUpDays}d`}
+                    </div>
                   )}
                 </div>
               </div>
             </div>
           );
         })}
-
-        {filtered.length === 0 && (
-          <div className="px-4 py-8 text-center text-sm text-white/30">
-            No leads match your filters
-          </div>
-        )}
+        {filtered.length === 0 && <div className="py-8 text-center text-sm text-white/30">No leads match your filters</div>}
       </div>
 
       {/* Detail Panel */}

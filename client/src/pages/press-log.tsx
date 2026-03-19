@@ -51,76 +51,116 @@ function LogRow({ log }: { log: PressLog }) {
       <button
         data-testid={`log-row-${log.id}`}
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-4 px-5 py-4 hover:bg-white/[0.02] transition-colors text-left"
+        className="w-full px-3 sm:px-5 py-3 sm:py-4 hover:bg-white/[0.02] transition-colors text-left"
       >
-        {/* Date + status */}
-        <div className="min-w-[120px]">
-          <div className="text-sm font-semibold text-white/90">{fmtDate(log.shiftDate)}</div>
-          <div className="text-[11px] text-white/40 mt-0.5">
-            {fmtTime(log.pressStartTime)} – {isLive ? (
-              <span className="text-[#00e676] font-medium">LIVE</span>
-            ) : fmtTime(log.pressStopTime)}
+        {/* Mobile layout: stacked */}
+        <div className="flex items-start justify-between gap-2 md:hidden">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-white/90">{fmtDate(log.shiftDate)}</span>
+              {isLive && <span className="w-2 h-2 rounded-full bg-[#00e676] animate-pulse flex-shrink-0" />}
+            </div>
+            <div className="text-[11px] text-white/40 mt-0.5">
+              {fmtTime(log.pressStartTime)} – {isLive ? (
+                <span className="text-[#00e676] font-medium">LIVE</span>
+              ) : fmtTime(log.pressStopTime)}
+            </div>
+            <div className="text-xs font-mono text-[#00e5ff] mt-1">{log.jobId}</div>
+            <div className="text-[11px] text-white/50 truncate">{log.clientName}</div>
+          </div>
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+            <Badge
+              variant="outline"
+              className={`text-xs tabular-nums font-semibold border-0 ${
+                rate >= 98 ? "bg-[#00e676]/10 text-[#00e676]" :
+                rate >= 95 ? "bg-[#ff9100]/10 text-[#ff9100]" :
+                "bg-[#ff1744]/10 text-[#ff1744]"
+              }`}
+            >
+              {rate.toFixed(1)}%
+            </Badge>
+            <div className="flex items-center gap-2 text-xs tabular-nums">
+              <span className="text-[#00e676]">{log.goodCount ?? 0}</span>
+              <span className="text-white/20">/</span>
+              <span className="text-[#ff1744]">{log.rejectCount ?? 0}</span>
+            </div>
+            <div className="text-white/30">
+              {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </div>
           </div>
         </div>
 
-        {/* Job */}
-        <div className="min-w-[140px]">
-          <div className="text-xs font-mono text-[#00e5ff]">{log.jobId}</div>
-          <div className="text-[11px] text-white/50 truncate max-w-[140px]">{log.clientName}</div>
-        </div>
-
-        {/* Vinyl info */}
-        <div className="min-w-[110px] hidden lg:block">
-          <div className="text-xs text-white/70">{log.format} · {log.weight}</div>
-          <div className="text-[11px] text-white/40 truncate max-w-[110px]">{log.vinylColor}</div>
-        </div>
-
-        {/* Production counts */}
-        <div className="flex items-center gap-4 flex-1">
-          <div className="text-center">
-            <div className="text-sm font-semibold text-[#00e676] tabular-nums">{log.goodCount ?? 0}</div>
-            <div className="text-[10px] text-white/30 uppercase tracking-wider">Good</div>
+        {/* Desktop layout: horizontal */}
+        <div className="hidden md:flex items-center gap-4">
+          {/* Date + status */}
+          <div className="min-w-[120px]">
+            <div className="text-sm font-semibold text-white/90">{fmtDate(log.shiftDate)}</div>
+            <div className="text-[11px] text-white/40 mt-0.5">
+              {fmtTime(log.pressStartTime)} – {isLive ? (
+                <span className="text-[#00e676] font-medium">LIVE</span>
+              ) : fmtTime(log.pressStopTime)}
+            </div>
           </div>
-          <div className="text-center">
-            <div className="text-sm font-semibold text-[#ff1744] tabular-nums">{log.rejectCount ?? 0}</div>
-            <div className="text-[10px] text-white/30 uppercase tracking-wider">Reject</div>
+
+          {/* Job */}
+          <div className="min-w-[140px]">
+            <div className="text-xs font-mono text-[#00e5ff]">{log.jobId}</div>
+            <div className="text-[11px] text-white/50 truncate max-w-[140px]">{log.clientName}</div>
           </div>
-          <div className="text-center hidden md:block">
-            <div className="text-sm font-semibold text-white/70 tabular-nums">{log.totalCycles ?? 0}</div>
-            <div className="text-[10px] text-white/30 uppercase tracking-wider">Cycles</div>
+
+          {/* Vinyl info */}
+          <div className="min-w-[110px] hidden lg:block">
+            <div className="text-xs text-white/70">{log.format} · {log.weight}</div>
+            <div className="text-[11px] text-white/40 truncate max-w-[110px]">{log.vinylColor}</div>
           </div>
-        </div>
 
-        {/* Yield badge */}
-        <div className="min-w-[60px] text-right hidden sm:block">
-          <Badge
-            variant="outline"
-            className={`text-xs tabular-nums font-semibold border-0 ${
-              rate >= 98 ? "bg-[#00e676]/10 text-[#00e676]" :
-              rate >= 95 ? "bg-[#ff9100]/10 text-[#ff9100]" :
-              "bg-[#ff1744]/10 text-[#ff1744]"
-            }`}
-          >
-            {rate.toFixed(1)}%
-          </Badge>
-        </div>
+          {/* Production counts */}
+          <div className="flex items-center gap-4 flex-1">
+            <div className="text-center">
+              <div className="text-sm font-semibold text-[#00e676] tabular-nums">{log.goodCount ?? 0}</div>
+              <div className="text-[10px] text-white/30 uppercase tracking-wider">Good</div>
+            </div>
+            <div className="text-center">
+              <div className="text-sm font-semibold text-[#ff1744] tabular-nums">{log.rejectCount ?? 0}</div>
+              <div className="text-[10px] text-white/30 uppercase tracking-wider">Reject</div>
+            </div>
+            <div className="text-center">
+              <div className="text-sm font-semibold text-white/70 tabular-nums">{log.totalCycles ?? 0}</div>
+              <div className="text-[10px] text-white/30 uppercase tracking-wider">Cycles</div>
+            </div>
+          </div>
 
-        {/* Flags */}
-        <div className="flex items-center gap-2 min-w-[50px] justify-end">
-          {maintenanceFlags.length > 0 && (
-            <Wrench className="w-3.5 h-3.5 text-[#ff9100]" />
-          )}
-          {(log.totalDowntimeMinutes ?? 0) > 20 && (
-            <AlertTriangle className="w-3.5 h-3.5 text-[#ffd740]" />
-          )}
-          {isLive && (
-            <span className="w-2 h-2 rounded-full bg-[#00e676] animate-pulse" />
-          )}
-        </div>
+          {/* Yield badge */}
+          <div className="min-w-[60px] text-right">
+            <Badge
+              variant="outline"
+              className={`text-xs tabular-nums font-semibold border-0 ${
+                rate >= 98 ? "bg-[#00e676]/10 text-[#00e676]" :
+                rate >= 95 ? "bg-[#ff9100]/10 text-[#ff9100]" :
+                "bg-[#ff1744]/10 text-[#ff1744]"
+              }`}
+            >
+              {rate.toFixed(1)}%
+            </Badge>
+          </div>
 
-        {/* Expand */}
-        <div className="text-white/30">
-          {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          {/* Flags */}
+          <div className="flex items-center gap-2 min-w-[50px] justify-end">
+            {maintenanceFlags.length > 0 && (
+              <Wrench className="w-3.5 h-3.5 text-[#ff9100]" />
+            )}
+            {(log.totalDowntimeMinutes ?? 0) > 20 && (
+              <AlertTriangle className="w-3.5 h-3.5 text-[#ffd740]" />
+            )}
+            {isLive && (
+              <span className="w-2 h-2 rounded-full bg-[#00e676] animate-pulse" />
+            )}
+          </div>
+
+          {/* Expand */}
+          <div className="text-white/30">
+            {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </div>
         </div>
       </button>
 

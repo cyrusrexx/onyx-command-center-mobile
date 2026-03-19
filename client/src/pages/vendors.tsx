@@ -396,7 +396,7 @@ export default function Vendors() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div
           className="glow-card rounded-xl px-4 py-3 border border-white/[0.06]"
           style={{ background: "rgba(18,19,26,0.8)" }}
@@ -440,7 +440,7 @@ export default function Vendors() {
       </div>
 
       {/* Category Filter Bar */}
-      <div className="flex items-center gap-1 rounded-xl p-1 bg-white/[0.02] border border-white/[0.06] flex-wrap">
+      <div className="flex items-center gap-1 rounded-xl p-1 bg-white/[0.02] border border-white/[0.06] flex-wrap overflow-x-auto">
         <button
           onClick={() => setCategoryFilter("all")}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${
@@ -473,13 +473,13 @@ export default function Vendors() {
       </div>
 
       {/* Search & Filters */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
           <input
             data-testid="vendor-search"
             type="text"
-            placeholder="Search vendors by name, contact, services, notes..."
+            placeholder="Search vendors..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[#00e5ff]/30 transition-colors"
@@ -509,9 +509,10 @@ export default function Vendors() {
         {filtered.length} vendor{filtered.length !== 1 ? "s" : ""} shown
       </div>
 
-      {/* Vendor Table */}
+      {/* Vendor Table — Desktop: grid table, Mobile: card list */}
+      {/* Desktop table (hidden on mobile) */}
       <div
-        className="rounded-xl border border-white/[0.06] overflow-hidden"
+        className="hidden md:block rounded-xl border border-white/[0.06] overflow-hidden"
         style={{ background: "rgba(18,19,26,0.6)" }}
       >
         {/* Table header */}
@@ -615,6 +616,60 @@ export default function Vendors() {
 
         {filtered.length === 0 && (
           <div className="px-4 py-8 text-center text-sm text-white/30">
+            No vendors match your filters
+          </div>
+        )}
+      </div>
+
+      {/* Mobile card list (visible only on mobile) */}
+      <div className="md:hidden space-y-2">
+        {filtered.map((vendor) => {
+          const catCfg = CATEGORY_CONFIG[vendor.category] || CATEGORY_CONFIG["materials"];
+          const statusCfg = STATUS_CONFIG[vendor.status] || STATUS_CONFIG["active"];
+          const CatIcon = catCfg.icon;
+          return (
+            <div
+              key={vendor.id}
+              data-testid={`vendor-card-${vendor.id}`}
+              onClick={() => setSelectedVendor(vendor)}
+              className="glow-card rounded-xl p-3 cursor-pointer active:scale-[0.98] transition-transform"
+            >
+              <div className="flex items-start gap-3">
+                <div
+                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ background: catCfg.bg }}
+                >
+                  <CatIcon className="w-4 h-4" style={{ color: catCfg.color }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm text-white/85 font-medium truncate">{vendor.name}</div>
+                  <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                    <span
+                      className="px-1.5 py-0 rounded text-[9px] font-semibold uppercase tracking-wide"
+                      style={{ background: catCfg.bg, color: catCfg.color }}
+                    >
+                      {catCfg.label}
+                    </span>
+                    <span
+                      className="px-1.5 py-0 rounded text-[9px] font-semibold uppercase tracking-wide"
+                      style={{ background: statusCfg.bg, color: statusCfg.color }}
+                    >
+                      {statusCfg.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-white/50 tabular-nums font-medium">
+                      {formatCurrency(vendor.totalSpendYTD)}
+                    </span>
+                    <StarRating rating={vendor.rating} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        {filtered.length === 0 && (
+          <div className="py-8 text-center text-sm text-white/30">
             No vendors match your filters
           </div>
         )}

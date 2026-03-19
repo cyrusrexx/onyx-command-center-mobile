@@ -77,7 +77,8 @@ export default function Maintenance() {
           <Calendar className="w-4 h-4 text-[#00e5ff]" />
           <h2 className="font-display font-semibold text-sm text-white/70">Maintenance Schedule</h2>
         </div>
-        <div className="space-y-1">
+        {/* Desktop table */}
+        <div className="hidden md:block space-y-1">
           <div className="grid grid-cols-7 gap-2 text-[10px] text-white/30 tracking-[0.1em] uppercase pb-2 border-b border-white/[0.06]">
             <span>Task</span>
             <span>Frequency</span>
@@ -102,6 +103,32 @@ export default function Maintenance() {
               <span className="font-mono tabular-nums text-white/50">{task.nextDue}</span>
               <span><StatusBadge status={task.status} /></span>
               <span className="text-white/30 truncate text-[10px]">{task.notes || "—"}</span>
+            </div>
+          ))}
+        </div>
+        {/* Mobile card list */}
+        <div className="md:hidden space-y-2">
+          {sortedTasks.map((task) => (
+            <div
+              key={task.id}
+              data-testid={`maintenance-task-${task.id}`}
+              className={`rounded-lg p-3 border border-white/[0.06] ${
+                task.status === "overdue" ? "bg-[#ff1744]/[0.03] border-[#ff1744]/20" : "bg-white/[0.02]"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-white/80 font-medium">{task.title}</span>
+                <StatusBadge status={task.status} />
+              </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px]">
+                <div><span className="text-white/30">Frequency:</span> <span className="text-white/50 capitalize">{task.frequency}</span></div>
+                <div><span className="text-white/30">Assigned:</span> <span className="text-white/50">{task.assignedTo}</span></div>
+                <div><span className="text-white/30">Last:</span> <span className="text-white/50 font-mono tabular-nums">{task.lastCompleted || "—"}</span></div>
+                <div><span className="text-white/30">Next:</span> <span className="text-white/50 font-mono tabular-nums">{task.nextDue}</span></div>
+              </div>
+              {task.notes && (
+                <div className="mt-2 text-[10px] text-white/30 truncate">{task.notes}</div>
+              )}
             </div>
           ))}
         </div>
@@ -164,11 +191,18 @@ export default function Maintenance() {
         </div>
         <div className="space-y-2">
           {recentLog.map((entry, i) => (
-            <div key={i} className="flex items-start gap-4 py-2 border-b border-white/[0.04] text-xs">
-              <span className="font-mono tabular-nums text-white/40 w-24 flex-shrink-0">{entry.date}</span>
-              <span className="text-white/50 w-16 flex-shrink-0">{entry.tech}</span>
+            <div key={i} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 py-2 border-b border-white/[0.04] text-xs">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <span className="font-mono tabular-nums text-white/40 w-24 flex-shrink-0">{entry.date}</span>
+                <span className="text-white/50 w-16 flex-shrink-0">{entry.tech}</span>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded capitalize sm:hidden ${
+                  entry.type === "daily" ? "bg-white/[0.04] text-white/30" :
+                  entry.type === "weekly" ? "bg-[#00e5ff]/5 text-[#00e5ff]/40" :
+                  "bg-[#ff9100]/5 text-[#ff9100]/40"
+                }`}>{entry.type}</span>
+              </div>
               <span className="text-white/60 flex-1">{entry.work}</span>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded capitalize ${
+              <span className={`hidden sm:inline text-[10px] px-1.5 py-0.5 rounded capitalize flex-shrink-0 ${
                 entry.type === "daily" ? "bg-white/[0.04] text-white/30" :
                 entry.type === "weekly" ? "bg-[#00e5ff]/5 text-[#00e5ff]/40" :
                 "bg-[#ff9100]/5 text-[#ff9100]/40"

@@ -78,7 +78,7 @@ export default function Dashboard() {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           {[...Array(5)].map((_, i) => <div key={i} className="h-32 bg-white/[0.03] rounded-xl" />)}
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6" data-testid="dashboard-page">
       {/* KPI Row */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         <KpiCard
           title="Monthly Revenue"
           value={`$${(data?.revenue || 0).toLocaleString()}`}
@@ -175,7 +175,7 @@ export default function Dashboard() {
       </div>
 
       {/* Second Row: Revenue chart + AR */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <GlowCard>
           <h3 className="font-display font-semibold text-sm text-white/70 mb-4">Revenue vs COGS</h3>
           <div className="h-64">
@@ -256,7 +256,7 @@ export default function Dashboard() {
       </div>
 
       {/* Third Row */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
         {/* Cash Flow Forecast */}
         <GlowCard>
           <h3 className="font-display font-semibold text-sm text-white/70 mb-4">Cash Flow Forecast (15-Day)</h3>

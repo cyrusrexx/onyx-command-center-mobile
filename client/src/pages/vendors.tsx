@@ -193,7 +193,7 @@ function VendorDetailPanel({
             <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-white/30 mb-3">
               Account Details
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {vendor.accountNumber && (
                 <div className="px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.06]">
                   <div className="text-[10px] text-white/30 uppercase mb-1">Account #</div>

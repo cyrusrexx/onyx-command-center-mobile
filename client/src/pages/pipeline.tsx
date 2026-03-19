@@ -127,12 +127,12 @@ function JobDetailPanel({
       {/* Panel */}
       <div
         data-testid={`job-detail-${job.jobId}`}
-        className="relative z-10 w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/[0.08] m-4"
+        className="relative z-10 w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/[0.08] mx-2 sm:mx-4 my-4"
         style={{ background: "linear-gradient(180deg, #10111a 0%, #0c0d14 100%)", boxShadow: "0 0 60px rgba(0,229,255,0.06)" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between px-8 py-5 border-b border-white/[0.06]" style={{ background: "rgba(16,17,26,0.95)", backdropFilter: "blur(12px)" }}>
+        <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-white/[0.06]" style={{ background: "rgba(16,17,26,0.95)", backdropFilter: "blur(12px)" }}>
           <div className="flex items-center gap-4">
             <Disc3 className="w-6 h-6 text-[#00e5ff]" />
             <div>
@@ -153,7 +153,7 @@ function JobDetailPanel({
           </button>
         </div>
 
-        <div className="p-8 space-y-8">
+        <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
 
           {/* STATUS TIMELINE */}
           <div>
@@ -196,7 +196,7 @@ function JobDetailPanel({
           </div>
 
           {/* TOP ROW: Job Details + Client & Financial */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6">
 
             {/* PRODUCT SPECS */}
             <div className="glow-card rounded-xl p-5">
@@ -320,7 +320,7 @@ function JobDetailPanel({
           </div>
 
           {/* MIDDLE ROW: Key Dates + Production Runs */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
 
             {/* KEY DATES */}
             <div className="glow-card rounded-xl p-5">
@@ -457,7 +457,7 @@ function JobDetailPanel({
                         </div>
                         <span className={`text-[10px] px-2 py-0.5 rounded ${sc.bg} ${sc.text}`}>{sc.label}</span>
                       </div>
-                      <div className="grid grid-cols-4 gap-4 text-[11px]">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-[11px]">
                         <div>
                           <div className="text-white/30">Reference</div>
                           <div className="text-white/70">{shipment.yourReference || "—"}</div>

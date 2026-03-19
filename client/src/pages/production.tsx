@@ -52,7 +52,7 @@ export default function Production() {
     <div data-testid="production-page" className="space-y-6">
       <h1 className="font-display font-bold text-lg text-white/90">Press Control — Pheenix Alpha AD12</h1>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
         {/* Left Panel: Current Job */}
         <div className="glow-card rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
@@ -153,7 +153,7 @@ export default function Production() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 text-center">
               <div>
                 <div className="font-mono text-lg font-bold tabular-nums text-white/80" data-testid="production-rate">138</div>
                 <div className="text-[10px] text-white/30">units/hr</div>
@@ -172,7 +172,7 @@ export default function Production() {
           </div>
 
           {/* Environmental Readings */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <SensorCard label="Ambient Temp" value={String(currentRun?.ambientTemp || 72.4)} unit="°F" status="nominal" icon={Thermometer} />
             <SensorCard label="Humidity" value={String(currentRun?.humidity || 44)} unit="%" status="nominal" icon={Droplets} />
             <SensorCard label="Chiller In" value={String(currentRun?.chillerTempIn || 54)} unit="°F" status="nominal" icon={Thermometer} />

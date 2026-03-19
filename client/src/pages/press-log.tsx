@@ -400,7 +400,7 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
         <div className="px-6 py-5 space-y-6">
           {/* Shift Info */}
           <FormSection title="Shift Info">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Date" type="date" value={form.shiftDate} onChange={v => setForm(f => ({ ...f, shiftDate: v }))} />
               <FormField label="Shift #" type="number" value={form.shiftNumber} onChange={v => setForm(f => ({ ...f, shiftNumber: parseInt(v) || 1 }))} />
               <FormField label="Start Time" type="time" value={form.pressStartTime} onChange={v => setForm(f => ({ ...f, pressStartTime: v }))} />
@@ -425,12 +425,12 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
                   ))}
                 </select>
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <FormField label="Format" value={form.format} onChange={v => setForm(f => ({ ...f, format: v }))} />
                 <FormField label="Weight" value={form.weight} onChange={v => setForm(f => ({ ...f, weight: v }))} />
                 <FormField label="Vinyl Color" value={form.vinylColor} onChange={v => setForm(f => ({ ...f, vinylColor: v }))} />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <FormField label="Color Blend" value={form.colorBlend} onChange={v => setForm(f => ({ ...f, colorBlend: v }))} placeholder="Optional" />
                 <div>
                   <label className="text-[10px] uppercase tracking-[0.15em] text-white/30 font-medium mb-1 block">Regrind %</label>
@@ -451,7 +451,7 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
 
           {/* Production Counts */}
           <FormSection title="Production Counts">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Good Count" type="number" value={form.goodCount} onChange={v => setForm(f => ({ ...f, goodCount: parseInt(v) || 0 }))} />
               <FormField label="Reject Count" type="number" value={form.rejectCount} onChange={v => setForm(f => ({ ...f, rejectCount: parseInt(v) || 0 }))} />
               <FormField label="Test Presses" type="number" value={form.testPressCount} onChange={v => setForm(f => ({ ...f, testPressCount: parseInt(v) || 0 }))} />
@@ -461,7 +461,7 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
 
           {/* AD12 Settings */}
           <FormSection title="AD12 Press Settings">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Extruder Temp (°F)" type="number" value={form.extruderTemp} onChange={v => setForm(f => ({ ...f, extruderTemp: parseFloat(v) || 0 }))} />
               <FormField label="Mould Top (°F)" type="number" value={form.mouldTempTop} onChange={v => setForm(f => ({ ...f, mouldTempTop: parseFloat(v) || 0 }))} />
               <FormField label="Mould Bottom (°F)" type="number" value={form.mouldTempBottom} onChange={v => setForm(f => ({ ...f, mouldTempBottom: parseFloat(v) || 0 }))} />
@@ -477,7 +477,7 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
 
           {/* Environmental */}
           <FormSection title="Environmental Readings">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Ambient (°F)" type="number" value={form.ambientTempF} onChange={v => setForm(f => ({ ...f, ambientTempF: parseFloat(v) || 0 }))} />
               <FormField label="Humidity (%)" type="number" value={form.humidityPercent} onChange={v => setForm(f => ({ ...f, humidityPercent: parseFloat(v) || 0 }))} />
               <FormField label="Chiller In (°F)" type="number" value={form.chillerTempIn} onChange={v => setForm(f => ({ ...f, chillerTempIn: parseFloat(v) || 0 }))} />
@@ -490,7 +490,7 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
 
           {/* Vinyl Usage */}
           <FormSection title="Vinyl Usage">
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <FormField label="Virgin (lbs)" type="number" value={form.vinylUsedLbs} onChange={v => setForm(f => ({ ...f, vinylUsedLbs: parseFloat(v) || 0 }))} />
               <FormField label="Regrind (lbs)" type="number" value={form.regrindUsedLbs} onChange={v => setForm(f => ({ ...f, regrindUsedLbs: parseFloat(v) || 0 }))} />
               <FormField label="Labels Used" type="number" value={form.labelsUsed} onChange={v => setForm(f => ({ ...f, labelsUsed: parseInt(v) || 0 }))} />
@@ -499,7 +499,7 @@ function NewShiftPanel({ open, onClose, jobs }: { open: boolean; onClose: () => 
 
           {/* Stampers */}
           <FormSection title="Stamper Tracking">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField label="Stamper A ID" value={form.stamperIdA} onChange={v => setForm(f => ({ ...f, stamperIdA: v }))} />
               <FormField label="Stamper B ID" value={form.stamperIdB} onChange={v => setForm(f => ({ ...f, stamperIdB: v }))} />
               <div>

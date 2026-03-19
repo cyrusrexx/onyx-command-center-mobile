@@ -61,7 +61,7 @@ export default function Inventory() {
       </div>
 
       {/* Inventory Grid */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {materials.map((item) => {
           const maxVal = Math.max(item.currentStock, item.reorderThreshold * 3);
           const statusColor = item.status === "critical" ? RED : item.status === "low" ? AMBER : GREEN;
@@ -138,7 +138,7 @@ export default function Inventory() {
           <Users className="w-4 h-4 text-[#00e5ff]" />
           <h2 className="font-display font-semibold text-sm text-white/70">Vendor Directory</h2>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {vendors.map((v) => (
             <div key={v.name} className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.1] transition-colors">
               <div className="text-xs font-medium text-white/70 mb-1">{v.name}</div>

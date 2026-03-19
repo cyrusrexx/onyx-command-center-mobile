@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { Bell, ChevronDown, Check, LogOut } from "lucide-react";
+import { Bell, ChevronDown, Check, LogOut, Menu } from "lucide-react";
 import { useActiveUser, PROFILES, type UserProfile } from "@/lib/userContext";
 import { useAuth } from "@/lib/authContext";
+import { useMobileNav } from "@/lib/mobileNav";
 
 export default function TopBar() {
   const [time, setTime] = useState(new Date());
@@ -9,6 +10,7 @@ export default function TopBar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const { activeUser, setActiveUser } = useActiveUser();
   const { logout } = useAuth();
+  const { toggleSidebar } = useMobileNav();
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
@@ -34,18 +36,27 @@ export default function TopBar() {
   return (
     <header
       data-testid="top-bar"
-      className="h-14 flex items-center justify-between px-6 border-b border-white/[0.06] relative"
-      style={{ background: "rgba(10,10,12,0.8)", backdropFilter: "blur(12px)", zIndex: 50, overflow: "visible" }}
+      className="h-14 flex items-center justify-between px-3 sm:px-6 border-b border-white/[0.06] relative"
+      style={{ background: "rgba(10,10,12,0.8)", backdropFilter: "blur(12px)", zIndex: 30, overflow: "visible" }}
     >
-      <div className="flex items-center gap-4">
-        <span className="font-display font-semibold text-xs tracking-[0.25em] uppercase text-[#00e5ff]/70 text-glow-cyan">
+      <div className="flex items-center gap-3">
+        {/* Hamburger — mobile only */}
+        <button
+          data-testid="mobile-menu-toggle"
+          onClick={toggleSidebar}
+          className="md:hidden p-2 -ml-1 rounded-lg hover:bg-white/[0.04] transition-colors"
+        >
+          <Menu className="w-5 h-5 text-white/60" />
+        </button>
+
+        <span className="font-display font-semibold text-xs tracking-[0.25em] uppercase text-[#00e5ff]/70 text-glow-cyan hidden sm:inline">
           Command Center
         </span>
       </div>
 
-      <div className="flex items-center gap-5">
-        {/* Clock */}
-        <div className="text-right">
+      <div className="flex items-center gap-2 sm:gap-5">
+        {/* Clock — hidden on mobile */}
+        <div className="text-right hidden sm:block">
           <div className="text-xs text-white/50 font-mono tabular-nums" data-testid="current-date">
             {time.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
           </div>
@@ -79,7 +90,7 @@ export default function TopBar() {
               {activeUser.initials}
             </div>
 
-            {/* Name + role */}
+            {/* Name + role — hidden on small screens */}
             <div className="text-left hidden lg:block">
               <div className="text-xs font-semibold text-white/90 leading-none">{activeUser.name}</div>
               <div className="text-[10px] text-white/40 leading-tight mt-0.5">{activeUser.role}</div>

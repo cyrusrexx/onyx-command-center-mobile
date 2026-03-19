@@ -403,7 +403,7 @@ export default function Finance() {
       </div>
 
       {/* ─── KPI Cards ─── */}
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {[
           { label: "Revenue", value: revenue, color: CYAN, change: revenueChange },
           { label: "COGS", value: Math.abs(totalCOGS), color: AMBER, change: null },
@@ -455,7 +455,7 @@ export default function Finance() {
 
       {/* ─── Tab content ─── */}
       {tab === "pnl" && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
           {/* P&L Detail */}
           <div className="col-span-2 glow-card rounded-xl p-5">
             <h2 className="font-display font-semibold text-sm text-white/70 mb-4">
@@ -742,7 +742,7 @@ export default function Finance() {
       </div>
 
       {/* ─── AP/AR Detail ─── */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
         <div className="glow-card rounded-xl p-5">
           <h2 className="font-display font-semibold text-sm text-white/70 mb-4">Accounts Receivable</h2>
           <div className="space-y-1.5 text-xs">

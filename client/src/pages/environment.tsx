@@ -69,7 +69,7 @@ export default function Environment() {
           <Radio className="w-4 h-4 text-[#00e5ff]" />
           <h2 className="font-display font-semibold text-sm text-white/70">Sensor Network — Recommended Setup</h2>
         </div>
-        <div className="grid grid-cols-3 gap-4 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 text-xs">
           <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.06]">
             <div className="text-[#00e5ff] font-medium mb-1">Vaisala HMT331 × 2</div>
             <div className="text-white/40">Ambient temp & humidity — one near press, one at storage</div>
@@ -86,7 +86,7 @@ export default function Environment() {
       </div>
 
       {/* Live Readings Grid */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
         {SENSORS.map((sensor) => {
           const data = latestValues[sensor.type];
           const current = data?.value || 0;

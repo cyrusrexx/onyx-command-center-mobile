@@ -324,7 +324,7 @@ export default function Shipping() {
       <h1 className="font-display font-bold text-lg text-white/90">Shipping & Tracking</h1>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-4" data-testid="shipping-kpi-cards">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" data-testid="shipping-kpi-cards">
         <div className="glow-card rounded-xl p-5">
           <div className="flex items-center gap-2 mb-2">
             <Package className="w-4 h-4 text-[#00e5ff]" />
@@ -453,7 +453,7 @@ export default function Shipping() {
           <Package className="w-4 h-4 text-[#00e5ff]" />
           <h2 className="font-display font-bold text-lg text-white/90">Shipments by Job</h2>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
           {Array.from(jobsWithShipments.entries()).map(([jobId, { job, shipments: jobShipments }]) => (
             <div
               key={jobId}
@@ -503,7 +503,7 @@ export default function Shipping() {
           <Truck className="w-4 h-4 text-[#00e5ff]" />
           <h2 className="font-display font-bold text-lg text-white/90">Carrier Summary</h2>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div className="glow-card rounded-xl p-5" data-testid="carrier-fedex">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
